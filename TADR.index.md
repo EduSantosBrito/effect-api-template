@@ -11,7 +11,7 @@ This index tracks all Trust Architecture Decision Records (TADRs) in the codebas
 ## Index
 
 | ID | Feature | Trust Level | Status | Path |
-|----|---------|--------|-------------|--------|--------|
+|----|---------|-------------|--------|------|
 | TADR-001 | Payment API | High | ✅ Verified | `src/TADR.md` |
 
 ## Adding a New TADR

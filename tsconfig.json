@@ -1,0 +1,61 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": ["ES2022"],
+    "strict": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "strictFunctionTypes": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "noEmitOnError": true,
+    "plugins": [
+      {
+        "name": "@effect/language-service",
+        "diagnostics": true,
+        "refactors": true,
+        "quickinfo": true,
+        "completions": true,
+        "diagnosticSeverity": {
+          "tryCatchInEffectGen": "error",
+          "newPromise": "error",
+          "asyncFunction": "error",
+          "effectFnOpportunity": "warn",
+          "globalDate": "error",
+          "globalDateInEffect": "error",
+          "globalConsole": "warn",
+          "globalConsoleInEffect": "warn",
+          "floatingEffect": "error",
+          "missingEffectError": "error",
+          "missingReturnYieldStar": "error",
+          "missingStarInYieldEffectGen": "error",
+          "effectFnImplicitAny": "error"
+        },
+        "overrides": [
+          {
+            "include": ["src/**/*.ts"],
+            "options": {
+              "diagnosticSeverity": {
+                "floatingEffect": "error",
+                "missingEffectError": "error",
+                "tryCatchInEffectGen": "error"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "test"]
+}

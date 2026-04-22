@@ -1,6 +1,6 @@
-import { Schema } from "effect"
-import { HttpApi, HttpApiEndpoint, HttpApiGroup, OpenApi } from "effect/unstable/httpapi"
-import { Payment, CreatePaymentRequest, PaymentId } from "./domain/payment/types.js"
+import { Schema } from "effect";
+import { HttpApi, HttpApiEndpoint, HttpApiGroup, OpenApi } from "effect/unstable/httpapi";
+import { Payment, CreatePaymentRequest, PaymentId } from "./domain/payment/types.js";
 
 /**
  * Payment API Definition
@@ -12,26 +12,28 @@ export class PaymentsApiGroup extends HttpApiGroup.make("payments")
   .add(
     HttpApiEndpoint.post("createPayment", "/payments", {
       payload: CreatePaymentRequest,
-      success: Payment
+      success: Payment,
     }),
     HttpApiEndpoint.get("getPayment", "/payments/:id", {
       params: {
-        id: Schema.String.pipe(Schema.decodeTo(PaymentId))
+        id: Schema.String.pipe(Schema.decodeTo(PaymentId)),
       },
-      success: Payment
-    })
+      success: Payment,
+    }),
   )
   .prefix("/payments")
-  .annotateMerge(OpenApi.annotations({
-    title: "Payments",
-    description: "Payment processing endpoints"
-  }))
-{}
+  .annotateMerge(
+    OpenApi.annotations({
+      title: "Payments",
+      description: "Payment processing endpoints",
+    }),
+  ) {}
 
 export class Api extends HttpApi.make("payment-api")
   .add(PaymentsApiGroup)
-  .annotateMerge(OpenApi.annotations({
-    title: "Payment API",
-    version: "1.0.0"
-  }))
-{}
+  .annotateMerge(
+    OpenApi.annotations({
+      title: "Payment API",
+      version: "1.0.0",
+    }),
+  ) {}

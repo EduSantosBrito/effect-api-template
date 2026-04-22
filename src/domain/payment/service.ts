@@ -1,4 +1,4 @@
-import { Clock, DateTime, Effect, Random } from "effect"
+import { Clock, DateTime, Effect, Random } from "effect";
 import {
   CreatePaymentRequest,
   InvalidPaymentAmount,
@@ -6,8 +6,8 @@ import {
   Payment,
   PaymentId,
   PaymentProcessingError,
-  PaymentStatus
-} from "./types.js"
+  PaymentStatus,
+} from "./types.js";
 
 /**
  * Pure business logic for payment processing.
@@ -20,47 +20,47 @@ import {
  * Scope: Payment amount validation must ensure business rules
  *        (minimum amount, currency support) before processing.
  */
-export const validateAmount = Effect.fn("validateAmount")(function*(money: Money) {
+export const validateAmount = Effect.fn("validateAmount")(function* (money: Money) {
   if (money.amount < 0.01) {
     return yield* new InvalidPaymentAmount({
-      reason: "Amount must be at least 0.01"
-    })
+      reason: "Amount must be at least 0.01",
+    });
   }
-  return money
-})
+  return money;
+});
 
 /**
  * Scope: Creating a payment must generate a valid ID, set initial status,
  *        and record the creation time for audit purposes.
  */
-export const createPayment = Effect.fnUntraced(function*(request: CreatePaymentRequest) {
-  const validAmount = yield* validateAmount(request.amount)
-  const now = yield* Clock.currentTimeMillis
-  const random = yield* Random.nextInt
+export const createPayment = Effect.fnUntraced(function* (request: CreatePaymentRequest) {
+  const validAmount = yield* validateAmount(request.amount);
+  const now = yield* Clock.currentTimeMillis;
+  const random = yield* Random.nextInt;
 
-  const id = `pay_${now}_${random}` as PaymentId
+  const id = `pay_${now}_${random}` as PaymentId;
 
   return new Payment({
     id,
     amount: validAmount,
     status: "pending" as PaymentStatus,
-    createdAt: DateTime.nowUnsafe()
-  })
-})
+    createdAt: DateTime.nowUnsafe(),
+  });
+});
 
 /**
  * Scope: Processing a payment transitions it from pending to succeeded.
  *        This is the core business operation.
  */
-export const processPayment = Effect.fn("processPayment")(function*(payment: Payment) {
+export const processPayment = Effect.fn("processPayment")(function* (payment: Payment) {
   if (payment.status !== "pending") {
     return yield* new PaymentProcessingError({
-      cause: new Error(`Cannot process payment with status: ${payment.status}`)
-    })
+      cause: new Error(`Cannot process payment with status: ${payment.status}`),
+    });
   }
 
   return new Payment({
     ...payment,
-    status: "succeeded" as PaymentStatus
-  })
-})
+    status: "succeeded" as PaymentStatus,
+  });
+});

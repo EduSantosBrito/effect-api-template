@@ -1,0 +1,6 @@
+{
+  "jsPlugins": ["./oxlint-plugin-ban-unsafe-casts.js"],
+  "rules": {
+    "ban-unsafe-casts/no-unsafe-cast": "error"
+  }
+}

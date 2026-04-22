@@ -1,0 +1,1 @@
+{"version":"7.0.0-dev+effect-tsgo.0.5.1","root":["./src/api.ts","./src/main.ts","./src/adapters/inmemory-payment-repository.ts","./src/domain/payment/service.ts","./src/domain/payment/types.ts","./src/layers/app.ts","./src/ports/payment-repository.ts"]}

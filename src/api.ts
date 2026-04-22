@@ -1,6 +1,13 @@
 import { Schema } from "effect";
 import { HttpApi, HttpApiEndpoint, HttpApiGroup, OpenApi } from "effect/unstable/httpapi";
-import { Payment, CreatePaymentRequest, PaymentId } from "./domain/payment/types.js";
+import {
+  Payment,
+  CreatePaymentRequest,
+  PaymentId,
+  InvalidPaymentAmount,
+  PaymentProcessingError,
+  PaymentNotFound,
+} from "./domain/payment/types.js";
 
 /**
  * Payment API Definition
@@ -13,12 +20,14 @@ export class PaymentsApiGroup extends HttpApiGroup.make("payments")
     HttpApiEndpoint.post("createPayment", "/payments", {
       payload: CreatePaymentRequest,
       success: Payment,
+      error: [InvalidPaymentAmount, PaymentProcessingError],
     }),
     HttpApiEndpoint.get("getPayment", "/payments/:id", {
       params: {
         id: Schema.String.pipe(Schema.decodeTo(PaymentId)),
       },
       success: Payment,
+      error: PaymentNotFound,
     }),
   )
   .prefix("/payments")

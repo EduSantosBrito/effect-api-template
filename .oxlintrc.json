@@ -1,6 +1,13 @@
 {
-  "jsPlugins": ["./oxlint-plugin-ban-unsafe-casts.js"],
+  "jsPlugins": [
+    "./oxlint-plugin-ban-unsafe-casts.js",
+    "./oxlint-plugin-ban-ordie.js",
+    "./oxlint-plugin-effect-scope.js"
+  ],
   "rules": {
-    "ban-unsafe-casts/no-unsafe-cast": "error"
+    "ban-unsafe-casts/no-unsafe-cast": "error",
+    "ban-ordie/no-ordie": "warn",
+    "effect-scope/no-overscoped": "warn",
+    "effect-scope/missing-scope": "error"
   }
 }

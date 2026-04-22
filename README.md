@@ -54,14 +54,14 @@ bun test
 bun run dev
 
 # Verify trust properties
-trust check --layer=all src/
+trust-cli check --layer=all src/
 ```
 
 ## Trust-First Workflow
 
 1. **Write spec** in `specs/<feature>.md`
 2. **Generate code** with `@trust-architect generate specs/<feature>.md`
-3. **Verify** with `trust check --layer=all`
+3. **Verify** with `trust-cli check --layer=all`
 4. **Review TADR** (not code)
 5. **Ship**
 

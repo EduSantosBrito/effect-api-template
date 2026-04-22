@@ -13,16 +13,22 @@ export const InMemoryPaymentRepositoryLive = Layer.effect(
   Effect.gen(function* () {
     const store = yield* Ref.make(new Map<string, Payment>());
 
-    const findById = Effect.fn("InMemoryRepo.findById")(function* (id: PaymentId) {
+    const findById: (id: PaymentId) => Effect.Effect<Payment | null, never, never> = Effect.fn(
+      "InMemoryRepo.findById",
+    )(function* (id: PaymentId) {
       const payments = yield* Ref.get(store);
       return payments.get(id) ?? null;
     });
 
-    const save = Effect.fn("InMemoryRepo.save")(function* (payment: Payment) {
-      yield* Ref.update(store, (map) => new Map(map).set(payment.id, payment));
+    const save: (payment: Payment) => Effect.Effect<void, never, never> = Effect.fn(
+      "InMemoryRepo.save",
+    )(function* (payment: Payment) {
+      return yield* Ref.update(store, (map) => new Map(map).set(payment.id, payment));
     });
 
-    const list = Effect.fn("InMemoryRepo.list")(function* () {
+    const list: () => Effect.Effect<ReadonlyArray<Payment>, never, never> = Effect.fn(
+      "InMemoryRepo.list",
+    )(function* () {
       const payments = yield* Ref.get(store);
       return Array.from(payments.values());
     });

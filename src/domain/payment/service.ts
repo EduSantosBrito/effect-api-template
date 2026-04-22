@@ -1,4 +1,4 @@
-import { Clock, DateTime, Effect, Random } from "effect";
+import { Clock, DateTime, Effect, Random, Schema } from "effect";
 import {
   CreatePaymentRequest,
   InvalidPaymentAmount,
@@ -6,7 +6,6 @@ import {
   Payment,
   PaymentId,
   PaymentProcessingError,
-  PaymentStatus,
 } from "./types.js";
 
 /**
@@ -38,13 +37,22 @@ export const createPayment = Effect.fnUntraced(function* (request: CreatePayment
   const now = yield* Clock.currentTimeMillis;
   const random = yield* Random.nextInt;
 
-  const id = `pay_${now}_${random}` as PaymentId;
+  const id = yield* Schema.decodeUnknownEffect(PaymentId)(`pay_${now}_${random}`).pipe(
+    Effect.mapError(
+      (error) =>
+        new PaymentProcessingError({
+          cause: new Error(`Generated invalid PaymentId: ${error}`),
+        }),
+    ),
+  );
+
+  const createdAt = yield* DateTime.now;
 
   return new Payment({
     id,
     amount: validAmount,
-    status: "pending" as PaymentStatus,
-    createdAt: DateTime.nowUnsafe(),
+    status: "pending",
+    createdAt,
   });
 });
 
@@ -61,6 +69,6 @@ export const processPayment = Effect.fn("processPayment")(function* (payment: Pa
 
   return new Payment({
     ...payment,
-    status: "succeeded" as PaymentStatus,
+    status: "succeeded",
   });
 });

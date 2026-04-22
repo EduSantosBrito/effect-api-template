@@ -13,20 +13,20 @@
     "lint": "oxlint --fix src",
     "test": "npx vitest run",
     "test:watch": "npx vitest",
-    "trust:verify": "trust check --layer=all src/",
+    "trust:verify": "trust-cli check --layer=all src/",
     "tsgo:setup": "npx @effect/tsgo setup",
     "prepare": "effect-tsgo patch"
   },
   "dependencies": {
-    "effect": "^4.0.0-beta.51",
-    "oxfmt": "^0.46.0",
-    "oxlint": "^1.61.0"
+    "effect": "^4.0.0-beta.51"
   },
   "devDependencies": {
     "@effect/platform-node": "^4.0.0-beta.51",
     "@effect/tsgo": "0.5.1",
     "@effect/vitest": "^4.0.0-beta.51",
     "vitest": "^4.1.4",
-    "@typescript/native-preview": "latest"
+    "@typescript/native-preview": "latest",
+    "oxfmt": "^0.46.0",
+    "oxlint": "^1.61.0"
   }
 }

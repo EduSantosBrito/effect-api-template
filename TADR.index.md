@@ -16,7 +16,7 @@ This index tracks all Trust Architecture Decision Records (TADRs) in the codebas
 
 ## Adding a New TADR
 
-1. Generate: `trust generate-tadr src/feature/name.ts --out src/feature/TADR.md`
-2. Update index: `trust tadr-status TADR-XXX --status "pending review"`
+1. Generate: `trust-cli generate-tadr src/feature/name.ts --out src/feature/TADR.md`
+2. Update index: `trust-cli tadr-status TADR-XXX --status "pending review"`
 3. Human reviews TADR
-4. Update status: `trust tadr-status TADR-XXX --status verified`
+4. Update status: `trust-cli tadr-status TADR-XXX --status verified`

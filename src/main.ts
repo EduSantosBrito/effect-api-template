@@ -5,6 +5,7 @@ import { HttpApiBuilder, HttpApiScalar } from "effect/unstable/httpapi";
 import { createServer } from "node:http";
 import { Api } from "./api.js";
 import { createPayment, processPayment } from "./domain/payment/service.js";
+import { PaymentNotFound } from "./domain/payment/types.js";
 import { PaymentRepository } from "./ports/payment-repository.js";
 import { AppLayer } from "./layers/app.js";
 
@@ -24,16 +25,16 @@ const PaymentHandlers = HttpApiBuilder.group(
           const processed = yield* processPayment(payment);
           yield* repo.save(processed);
           return processed;
-        }).pipe(Effect.orDie),
+        }),
       )
       .handle("getPayment", ({ params }) =>
         Effect.gen(function* () {
           const payment = yield* repo.findById(params.id);
           if (payment === null) {
-            return yield* Effect.die(new Error("Payment not found"));
+            return yield* new PaymentNotFound({ id: params.id });
           }
           return payment;
-        }).pipe(Effect.orDie),
+        }),
       );
   }),
 ).pipe(Layer.provide(AppLayer));
